@@ -1,0 +1,9 @@
+@PROJECT  :	Diercke Globus Online
+@FILENAME :	%FILENAME%
+@VERSION  :	3.0
+@DATE     :	%DATE%
+@AUTHOR   :	Martin Steen
+@EMAIL    :	msteen@imagon.de
+@COMPANY  :	imagon GmbH
+
+
