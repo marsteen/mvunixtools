@@ -28,6 +28,9 @@ namespace NStringTool
 
 	void Trim(stringvector& sv, const char* trimChars);
 	void TrimValid(stringvector& sv, const char* validChars);
+    
+    int SplitByString(std::string InputString, stringvector* ResultVector, const std::string spstring);
+    std::string ReplaceStrings(const std::string& InputString, const std::string& OldString, const std::string& NewString);
 
 	template <typename T>
   std::string toString(T i)

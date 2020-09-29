@@ -27,7 +27,7 @@ class CFileIO2
 		bool   WriteBytes(const void* buffer, int nBytes);
 		bool   WriteString(const char* str);
 		void   CloseFile();
-		bool   ReadSplitLine(stringvector* SplitVector, char SplitChar);
+		bool   ReadSplitLine(stringvector* SplitVector, char SplitChar, std::string* Line=nullptr);
 		bool   ReadLine(std::string* Line);
 		void*  ReadFile(const char* Filename, int* nBytes);
 		bool   WriteFile(const char* Filename, const void* buffer, int nBytes);

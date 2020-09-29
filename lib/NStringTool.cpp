@@ -485,6 +485,62 @@ std::string Shorten(const std::string& InString, const std::string Punkte, int L
 	return OutString;
 }
 
+//---------------------------------------------------------------------------
+//
+// Namespace:  NStringTool
+// Methode:    SplitByString
+//
+//---------------------------------------------------------------------------
+
+    int SplitByString(std::string InputString, stringvector* ResultVector, const std::string spstring)
+    {
+        int OldIndex = 0;
+        int NewIndex;
+
+        do
+        {
+            NewIndex = InputString.find(spstring, OldIndex);
+
+            if (NewIndex != std::string::npos)
+            {
+                ResultVector->push_back(InputString.substr(OldIndex, NewIndex - OldIndex));
+                OldIndex = NewIndex + spstring.size();
+            }
+            else
+            {
+                ResultVector->push_back(InputString.substr(OldIndex, InputString.size() - OldIndex));
+            }
+        }while (NewIndex != std::string::npos);
+
+        return ResultVector->size();
+    }
+
+
+    //---------------------------------------------------------------------------
+    //
+    // Namespace:  NStringTool  
+    // Methode:    ReplaceStrings    
+    //
+    //---------------------------------------------------------------------------
+
+    std::string ReplaceStrings(const std::string& InputString, const std::string& OldString, const std::string& NewString)    
+    {
+        stringvector sp;
+        std::string OutputString;
+
+
+        SplitByString(InputString, &sp, OldString);        
+        for (int i = 0; i < sp.size(); i++)
+        {
+            OutputString += sp[i];
+
+            if (i < sp.size()-1)
+            {
+                OutputString += NewString;
+            }
+        }
+        return OutputString;
+    }
 
 /*
 	//---------------------------------------------------------------------------

@@ -237,9 +237,8 @@ bool CFileIO2::ReadLine(string* Line)
 //
 //---------------------------------------------------------------------------
 
-bool CFileIO2::ReadSplitLine(stringvector* SplitVector, char SplitChar)
+bool CFileIO2::ReadSplitLine(stringvector* SplitVector, char SplitChar, std::string* Line)
 {
-
 	bool r = false;
 
 	if (SplitVector != NULL)
@@ -249,6 +248,11 @@ bool CFileIO2::ReadSplitLine(stringvector* SplitVector, char SplitChar)
 		r = ReadLine(&LineBuffer);
 		SplitVector->clear();
 		NStringTool::Split(LineBuffer, SplitVector, SplitChar);
+        if (Line != nullptr)
+        {
+            *Line = LineBuffer;
+        }       
+        
 	}
 	return r;
 }
