@@ -166,7 +166,7 @@ void* CFileIO2::ReadFile(const char* Filename, long* nBytes)
 {
   char* buffer = NULL;
   *nBytes = CFileIO2::GetFileSize(Filename);
-  if (nBytes > 0)
+  if (*nBytes > 0)
   {
 		ifstream fin(Filename, ios::in | ios::binary);
     if (fin.good())
@@ -283,7 +283,7 @@ void* CFileIO2::ReadFile(const char* Filename, int* nBytes)
 {
   char* buffer = NULL;
   *nBytes = CFileIO2::GetFileSize(Filename);
-  if (nBytes > 0)
+  if (*nBytes > 0)
   {
 		fstream fs(Filename, ios::in | ios::binary);
 
