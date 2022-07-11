@@ -57,35 +57,38 @@ static bool ReplaceInFile(const char* filenameIn, const char* filenameOut, const
 int main(int argc, char* argv[])
 {
     bool replaced = false;
-    if (std::string(argv[2]) == "--rtabs")
+    if (argc >= 3)
     {
-        ReplaceInFile(argv[1], argv[1], "\t", "    ");
-        replaced = true;
-    }
-    else
-    if (std::string(argv[2]) == "--config")
-    {	
-        ifstream infile(argv[3]);
-        std::string str1;
-        std::string str2;
-        infile >> str1;
-        infile >> str2;
-        infile.close();
-        ReplaceInFile(argv[1], argv[1], str1.c_str(), str2.c_str());
-        replaced = true;
-    }
-    else
-    if (argc == 3)
-    {
-        ReplaceInFile(argv[1], argv[1], argv[2], NULL);
-        replaced = true;
-    }
-    else
-    if (argc == 4)
-    {
-        ReplaceInFile(argv[1], argv[1], argv[2], argv[3]);
-        replaced = true;
-    }
+	    if (std::string(argv[2]) == "--rtabs")
+	    {
+	        ReplaceInFile(argv[1], argv[1], "\t", "    ");
+	        replaced = true;
+	    }
+	    else
+	    if (std::string(argv[2]) == "--config")
+	    {	
+	        ifstream infile(argv[3]);
+	        std::string str1;
+	        std::string str2;
+	        infile >> str1;
+	        infile >> str2;
+	        infile.close();
+	        ReplaceInFile(argv[1], argv[1], str1.c_str(), str2.c_str());
+	        replaced = true;
+	    }
+	    else
+	    if (argc == 3)
+	    {
+	        ReplaceInFile(argv[1], argv[1], argv[2], NULL);
+	        replaced = true;
+	    }
+	    else
+	    if (argc == 4)
+	    {
+	        ReplaceInFile(argv[1], argv[1], argv[2], argv[3]);
+	        replaced = true;
+	    }
+	}
 	
 	if (!replaced)
 	{
