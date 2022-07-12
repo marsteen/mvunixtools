@@ -43,7 +43,7 @@ LINKLIBS    =
 #
 # CCFLAGS  = -O -static-libgcc -L. -I$(INCPATH) -I$(INCSTE)
 #
-CCFLAGS  = -O2 -I$(INCPATH)
+CCFLAGS  = -std=c++17 -O2 -I$(INCPATH)
 
 
 #************************************************************
