@@ -10,38 +10,37 @@
 #include <cstdlib>
 #include <NStringTool.h>
 
-#define OPENMODE std::ios_base::openmode
-#define SEEKDIR  std::ios_base::seekdir
+#define OPENMODE	std::ios_base::openmode
+#define SEEKDIR		std::ios_base::seekdir
 
 
 
 class CFileIO2
 {
-	public:
+    public:
 
-		CFileIO2();
+        CFileIO2();
 
-		bool   OpenFileRead(const char* Filename, OPENMODE type);
-		bool   OpenFileWrite(const char*Filename, OPENMODE type);
-		bool   ReadBytes(void* buffer, int nBytes);
-		bool   WriteBytes(const void* buffer, int nBytes);
-		bool   WriteString(const char* str);
-		void   CloseFile();
-		bool   ReadSplitLine(stringvector* SplitVector, char SplitChar, std::string* Line=nullptr);
-		bool   ReadLine(std::string* Line);
-		void*  ReadFile(const char* Filename, int* nBytes);
-		bool   WriteFile(const char* Filename, const void* buffer, int nBytes);
+        bool OpenFileRead(const char* Filename, OPENMODE type);
+        bool OpenFileWrite(const char* Filename, OPENMODE type);
+        bool ReadBytes(void* buffer, int nBytes);
+        bool WriteBytes(const void* buffer, int nBytes);
+        bool WriteString(const char* str);
+        void CloseFile();
+        bool ReadSplitLine(stringvector* SplitVector, char SplitChar, std::string* Line = nullptr);
+        bool ReadLine(std::string* Line);
+        void*  ReadFile(const char* Filename, int* nBytes);
+        bool WriteFile(const char* Filename, const void* buffer, int nBytes);
 
-		static long  GetFileSize(const char* Filename);
-		static void* ReadFile(const char* Filename, long* nBytes);
+        static long GetFileSize(const char* Filename);
+        static void* ReadFile(const char* Filename, long* nBytes);
 
-	protected:
+    protected:
 
-		std::fstream mFs;
+        std::fstream mFs;
 
-		bool mOpenRead;
-		bool mOpenWrite;
+        bool mOpenRead;
+        bool mOpenWrite;
 };
 
 #endif
-

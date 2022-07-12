@@ -1,4 +1,3 @@
-
 #include <cstring>
 #include "CFileIO2.h"
 
@@ -14,9 +13,10 @@ using namespace std;
 
 CFileIO2::CFileIO2()
 {
-	mOpenWrite = false;
-	mOpenRead  = false;
+    mOpenWrite = false;
+    mOpenRead = false;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -31,10 +31,11 @@ CFileIO2::CFileIO2()
 
 bool CFileIO2::OpenFileRead(const char* Filename, OPENMODE OpenMode)
 {
-  mFs.open(Filename, ios::in | OpenMode);
-  mOpenRead = mFs.good();
-  return mOpenRead;
+    mFs.open(Filename, ios::in | OpenMode);
+    mOpenRead = mFs.good();
+    return mOpenRead;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -49,10 +50,11 @@ bool CFileIO2::OpenFileRead(const char* Filename, OPENMODE OpenMode)
 
 bool CFileIO2::OpenFileWrite(const char* Filename, OPENMODE OpenMode)
 {
-  mFs.open(Filename, ios::out | OpenMode);
-  mOpenWrite = mFs.good();
-  return mOpenWrite;
+    mFs.open(Filename, ios::out | OpenMode);
+    mOpenWrite = mFs.good();
+    return mOpenWrite;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -63,10 +65,11 @@ bool CFileIO2::OpenFileWrite(const char* Filename, OPENMODE OpenMode)
 
 void CFileIO2::CloseFile()
 {
-	mFs.close();
-	mOpenWrite = false;
-	mOpenRead  = false;
+    mFs.close();
+    mOpenWrite = false;
+    mOpenRead = false;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -81,12 +84,13 @@ void CFileIO2::CloseFile()
 
 long CFileIO2::GetFileSize(const char* Filename)
 {
-  long FileSize;
-  ifstream fin(Filename, ios::in | ios::binary);
-  fin.seekg(0, ios::end);
-  FileSize = fin.tellg();
-  fin.close();
-  return FileSize;
+    long FileSize;
+    ifstream fin(Filename, ios::in | ios::binary);
+
+    fin.seekg(0, ios::end);
+    FileSize = fin.tellg();
+    fin.close();
+    return FileSize;
 }
 
 
@@ -111,12 +115,13 @@ long CFileIO2::GetFileSize(const char* Filename)
 
 bool CFileIO2::ReadBytes(void* buffer, int nBytes)
 {
-  if (mOpenRead)
-  {
-    mFs.read((char*) buffer, nBytes);
-  }
-  return mFs.good();
+    if (mOpenRead)
+    {
+        mFs.read((char*)buffer, nBytes);
+    }
+    return mFs.good();
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -131,12 +136,13 @@ bool CFileIO2::ReadBytes(void* buffer, int nBytes)
 
 bool CFileIO2::WriteBytes(const void* buffer, int nBytes)
 {
-  if (mOpenWrite)
-  {
-    mFs.write((const char*) buffer, nBytes);
-  }
-  return mFs.good();
+    if (mOpenWrite)
+    {
+        mFs.write((const char*)buffer, nBytes);
+    }
+    return mFs.good();
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -148,8 +154,9 @@ bool CFileIO2::WriteBytes(const void* buffer, int nBytes)
 
 bool CFileIO2::WriteString(const char* str)
 {
- 	return WriteBytes(str, strlen(str));
+    return WriteBytes(str, strlen(str));
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -164,23 +171,24 @@ bool CFileIO2::WriteString(const char* str)
 
 void* CFileIO2::ReadFile(const char* Filename, long* nBytes)
 {
-  char* buffer = NULL;
-  *nBytes = CFileIO2::GetFileSize(Filename);
-  if (*nBytes > 0)
-  {
-		ifstream fin(Filename, ios::in | ios::binary);
-    if (fin.good())
+    char* buffer = NULL;
+
+    *nBytes = CFileIO2::GetFileSize(Filename);
+    if (*nBytes > 0)
     {
-      buffer = new char[*nBytes+1];
-      if (buffer != NULL)
-      {
-		    fin.read(buffer, *nBytes);
-        buffer[*nBytes] = 0;
-      }
+        ifstream fin(Filename, ios::in | ios::binary);
+        if (fin.good())
+        {
+            buffer = new char[*nBytes+1];
+            if (buffer != NULL)
+            {
+                fin.read(buffer, *nBytes);
+                buffer[*nBytes] = 0;
+            }
+        }
+        fin.close();
     }
-		fin.close();
-  }
-  return buffer;
+    return buffer;
 }
 
 
@@ -196,38 +204,38 @@ void* CFileIO2::ReadFile(const char* Filename, long* nBytes)
 
 bool CFileIO2::ReadLine(string* Line)
 {
-	char ch;
-	bool EndLine = false;
-	bool IsEof = false;
+    char ch;
+    bool EndLine = false;
+    bool IsEof = false;
 
-	Line->clear();
-	do
-	{
-		mFs.get(ch);
-		if (!mFs.eof())
-		{
-			if (ch != 0x0D)
-			{
-				if (ch != 0x0A)
-				{
-        	Line->push_back(ch);
-				}
-				else
-				{
-					EndLine = true;
-				}
-			}
-		}
-		else
-		{
-			EndLine = true;
-			IsEof   = true;
-		}
-	}
-	while (!EndLine);
+    Line->clear();
+    do
+    {
+        mFs.get(ch);
+        if (!mFs.eof())
+        {
+            if (ch != 0x0D)
+            {
+                if (ch != 0x0A)
+                {
+                    Line->push_back(ch);
+                }
+                else
+                {
+                    EndLine = true;
+                }
+            }
+        }
+        else
+        {
+            EndLine = true;
+            IsEof = true;
+        }
+    } while (!EndLine);
 
-	return !IsEof;
+    return !IsEof;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -239,22 +247,21 @@ bool CFileIO2::ReadLine(string* Line)
 
 bool CFileIO2::ReadSplitLine(stringvector* SplitVector, char SplitChar, std::string* Line)
 {
-	bool r = false;
+    bool r = false;
 
-	if (SplitVector != NULL)
-	{
-		string LineBuffer;
+    if (SplitVector != NULL)
+    {
+        string LineBuffer;
 
-		r = ReadLine(&LineBuffer);
-		SplitVector->clear();
-		NStringTool::Split(LineBuffer, SplitVector, SplitChar);
+        r = ReadLine(&LineBuffer);
+        SplitVector->clear();
+        NStringTool::Split(LineBuffer, SplitVector, SplitChar);
         if (Line != nullptr)
         {
             *Line = LineBuffer;
-        }       
-        
-	}
-	return r;
+        }
+    }
+    return r;
 }
 
 
@@ -281,24 +288,25 @@ bool CFileIO2::ReadSplitLine(stringvector* SplitVector, char SplitChar, std::str
 
 void* CFileIO2::ReadFile(const char* Filename, int* nBytes)
 {
-  char* buffer = NULL;
-  *nBytes = CFileIO2::GetFileSize(Filename);
-  if (*nBytes > 0)
-  {
-		fstream fs(Filename, ios::in | ios::binary);
+    char* buffer = NULL;
 
-    if (fs.good())
+    *nBytes = CFileIO2::GetFileSize(Filename);
+    if (*nBytes > 0)
     {
-      buffer = new char[*nBytes+1];
-      if (buffer != NULL)
-      {
-				fs.read((char*) buffer, *nBytes);
-				fs.close();
-				buffer[*nBytes] = 0;
-      }
+        fstream fs(Filename, ios::in | ios::binary);
+
+        if (fs.good())
+        {
+            buffer = new char[*nBytes+1];
+            if (buffer != NULL)
+            {
+                fs.read((char*)buffer, *nBytes);
+                fs.close();
+                buffer[*nBytes] = 0;
+            }
+        }
     }
-  }
-  return buffer;
+    return buffer;
 }
 
 
@@ -320,19 +328,19 @@ void* CFileIO2::ReadFile(const char* Filename, int* nBytes)
 
 bool CFileIO2::WriteFile(const char* Filename, const void* buffer, int nBytes)
 {
-	bool r = false;
+    bool r = false;
 
-  if (nBytes > 0)
-  {
-		fstream fs(Filename, ios::out | ios::binary);
+    if (nBytes > 0)
+    {
+        fstream fs(Filename, ios::out | ios::binary);
 
-		if (fs.good())
-		{
-			fs.write((const char*) buffer, nBytes);
-			fs.close();
+        if (fs.good())
+        {
+            fs.write((const char*)buffer, nBytes);
+            fs.close();
 
-			r = true;
+            r = true;
+        }
     }
-  }
-  return r;
+    return r;
 }

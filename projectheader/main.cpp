@@ -42,22 +42,21 @@ static CDatabaseV6 db6;
 
 static void Dos2Unix(char* txt)
 {
+    int j = 0;
+    char* dsttxt = new char[strlen(txt) + 1];
 
-  int j = 0;
-  char* dsttxt = new char[strlen(txt) + 1];
-  for (int i = 0; txt[i] != 0; i++)
-  {
-    if (txt[i] != 0x0D)
+    for (int i = 0; txt[i] != 0; i++)
     {
-      dsttxt[j++] = txt[i];
-    } 
-  }
-  
-  dsttxt[j] = 0;
-  strcpy(txt, dsttxt);
-  delete[] dsttxt;  
-}
+        if (txt[i] != 0x0D)
+        {
+            dsttxt[j++] = txt[i];
+        }
+    }
 
+    dsttxt[j] = 0;
+    strcpy(txt, dsttxt);
+    delete[] dsttxt;
+}
 
 
 //---------------------------------------------------------------------------
@@ -74,26 +73,27 @@ static void Dos2Unix(char* txt)
 
 static void ExchangeStrings(const std::string& sa, std::string* sb, const std::string& keyword, const std::string& repword)
 {
-	cout << "Keyword=" << keyword << " repword=" << repword << endl;
+    cout << "Keyword=" << keyword << " repword=" << repword << endl;
 
-	std::string::size_type From = 0;
-	std::string::size_type Pos = sa.find(keyword);
+    std::string::size_type From = 0;
+    std::string::size_type Pos = sa.find(keyword);
 
-	sb->clear();
+    sb->clear();
 
-	while (Pos != std::string::npos)
-	{
-		cout << "Pos=" << Pos << endl;
+    while (Pos != std::string::npos)
+    {
+        cout << "Pos=" << Pos << endl;
 
-		*sb += sa.substr(From, Pos - From);
-		*sb += repword;
+        *sb += sa.substr(From, Pos - From);
+        *sb += repword;
 
-		From = Pos + keyword.size();
-		Pos = sa.substr(From).find(keyword);
-	}
+        From = Pos + keyword.size();
+        Pos = sa.substr(From).find(keyword);
+    }
 
-	*sb += sa.substr(From);
+    *sb += sa.substr(From);
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -108,35 +108,38 @@ static void ExchangeStrings(const std::string& sa, std::string* sb, const std::s
 
 static void ExchangeStrings2(const std::string& sa, std::string* sb, const std::string& keyword, const std::string& repword)
 {
-	//cout << "Keyword=" << keyword << " repword=" << repword << endl;
-	char LineEnd = 0x0A;
+    //cout << "Keyword=" << keyword << " repword=" << repword << endl;
+    char LineEnd = 0x0A;
 
-	std::string::size_type From = 0;
-	std::string::size_type Pos = sa.find(keyword);
+    std::string::size_type From = 0;
+    std::string::size_type Pos = sa.find(keyword);
 
-	sb->clear();
+    sb->clear();
 
-	while ((Pos  != std::string::npos) &&
-	       (From != std::string::npos))
-	{
-		//cout << "Pos=" << Pos << " From=" << From << endl;
+    while ((Pos != std::string::npos) &&
+        (From != std::string::npos))
+    {
+        //cout << "Pos=" << Pos << " From=" << From << endl;
 
 
 
-		*sb += sa.substr(From, Pos - From);
+        *sb += sa.substr(From, Pos - From);
 
-		*sb += keyword;
-		*sb += "\t";
-		*sb += repword;
+        *sb += keyword;
+        *sb += "\t";
+        *sb += repword;
 
-		From = Pos + keyword.size();
-		while (sa[From] != '\n') From++;
+        From = Pos + keyword.size();
+        while (sa[From] != '\n')
+        {
+            From++;
+        }
 
-		//From = sa.substr(Pos + keyword.size()).find(LineEnd);
-		Pos = sa.substr(From).find(keyword);
-	}
+        //From = sa.substr(Pos + keyword.size()).find(LineEnd);
+        Pos = sa.substr(From).find(keyword);
+    }
 
-	*sb += sa.substr(From);
+    *sb += sa.substr(From);
 }
 
 
@@ -151,43 +154,43 @@ static void ExchangeStrings2(const std::string& sa, std::string* sb, const std::
 
 static void Replace(const std::string InputString, std::string* OutputString)
 {
-	std::string String1 = InputString;
-	std::string String2;
+    std::string String1 = InputString;
+    std::string String2;
 
-	std::string *SrcString;
-	std::string *DstString;
+    std::string* SrcString;
+    std::string* DstString;
 
-	bool b = true;
+    bool b = true;
 
-	for (std::vector<stringvector>::iterator it =  db6.mRecords.begin();
-	                                         it != db6.mRecords.end();
-	                                       ++it)
-	{
-		if (it->size() == 2)
-		{
-			if (b)
-			{
-				SrcString = &String1;
-				DstString = &String2;
-			}
-			else
-			{
-				SrcString = &String2;
-				DstString = &String1;
-			}
+    for (std::vector<stringvector>::iterator it = db6.mRecords.begin();
+        it != db6.mRecords.end();
+        ++it)
+    {
+        if (it->size() == 2)
+        {
+            if (b)
+            {
+                SrcString = &String1;
+                DstString = &String2;
+            }
+            else
+            {
+                SrcString = &String2;
+                DstString = &String1;
+            }
 
-			ExchangeStrings2(*SrcString, DstString, (*it)[0], (*it)[1]);
+            ExchangeStrings2(*SrcString, DstString, (*it)[0], (*it)[1]);
 
-			b = !b;
-		}
-	}
+            b = !b;
+        }
+    }
 
-	//cout << "String1=" << String1 << endl;
-	//cout << "DstString=" << *DstString << endl;
+    //cout << "String1=" << String1 << endl;
+    //cout << "DstString=" << *DstString << endl;
 
-	*OutputString = *DstString;
-
+    *OutputString = *DstString;
 }
+
 
 //---------------------------------------------------------------------------
 //
@@ -199,55 +202,55 @@ static void Replace(const std::string InputString, std::string* OutputString)
 
 static bool ReadKeymap(const char* Keyfile, const char* Textfile)
 {
-	bool r =  db6.Read(Keyfile);
-	string tstr = Textfile;
-	string LocalFile;
-	std::string::size_type Slash = tstr.rfind("/");
-  stringstream TimeStr;
-	
-	
-  time_t t = time(NULL);
-  struct tm tnow = *localtime(&t);
-  
-  TimeStr << tnow.tm_mday << "." << (tnow.tm_mon + 1) << "." << (tnow.tm_year + 1900);
+    bool r = db6.Read(Keyfile);
+    string tstr = Textfile;
+    string LocalFile;
+    std::string::size_type Slash = tstr.rfind("/");
+    stringstream TimeStr;
 
-		
-	
-	if (Slash != std::string::npos)
-	{
-	  LocalFile = tstr.substr(Slash + 1);
-	}
-	else
-	{
-	  LocalFile = Textfile;
-	}
-	
-	
-	if (r)
-	{
-    for (std::vector<stringvector>::iterator it =  db6.mRecords.begin();
-	                                           it != db6.mRecords.end();
-	                                         ++it)	   
+
+    time_t t = time(NULL);
+    struct tm tnow = *localtime(&t);
+
+    TimeStr << tnow.tm_mday << "." << (tnow.tm_mon + 1) << "." << (tnow.tm_year + 1900);
+
+
+
+    if (Slash != std::string::npos)
     {
-       if (it->size() == 2)
-       {
-          std::string* val = &((*it)[1]);
-          if (*val == "%FILENAME%")
-          {
-             *val = LocalFile;
-          }
-          else
-          if (*val == "%DATE%")
-          {
-             *val = TimeStr.str();
-          }           
+        LocalFile = tstr.substr(Slash + 1);
+    }
+    else
+    {
+        LocalFile = Textfile;
+    }
 
-       }
-    }	
-	}
-	
-	return r;
+
+    if (r)
+    {
+        for (std::vector<stringvector>::iterator it = db6.mRecords.begin();
+            it != db6.mRecords.end();
+            ++it)
+        {
+            if (it->size() == 2)
+            {
+                std::string* val = &((*it)[1]);
+                if (*val == "%FILENAME%")
+                {
+                    *val = LocalFile;
+                }
+                else
+                if (*val == "%DATE%")
+                {
+                    *val = TimeStr.str();
+                }
+            }
+        }
+    }
+
+    return r;
 }
+
 
 // Parameter:
 // 1: Keymap
@@ -262,47 +265,45 @@ static bool ReadKeymap(const char* Keyfile, const char* Textfile)
 
 int main(int argc, char* argv[])
 {
-	if (argc == 3)
-	{
-		if (ReadKeymap(argv[1], argv[2]))
-		{
-			CFileIO2 fio2;
-			int Filesize;
-			char* FileData = (char*) fio2.ReadFile(argv[2], &Filesize);
+    if (argc == 3)
+    {
+        if (ReadKeymap(argv[1], argv[2]))
+        {
+            CFileIO2 fio2;
+            int Filesize;
+            char* FileData = (char*)fio2.ReadFile(argv[2], &Filesize);
 
-			if (FileData != NULL)
-			{
-			
-			  cout << "Header project / file:" << argv[2] << " keyfile:" << argv[1] << endl;
-			
-			  Dos2Unix(FileData);
-			
-			
-				string DstFileData;
-				string FileDataStr = FileData;
-				Replace(FileDataStr, &DstFileData);
+            if (FileData != NULL)
+            {
+                cout << "Header project / file:" << argv[2] << " keyfile:" << argv[1] << endl;
 
-				fio2.WriteFile(argv[2], DstFileData.c_str(), DstFileData.size());
+                Dos2Unix(FileData);
 
 
-				delete[] FileData;
-			}
-			else
-			{
-				cout << "***** cannot open source file:" << argv[2] << endl;		
-			}
-		}
-		else
-		{
-			cout << "***** cannot open key file:" << argv[1] << endl;
-		}
-	}
-	else
-	{
-		cout << "usage: projectheader <keymapfile> <textfile>" << endl;
-    cout << "  Version 1.5" << endl;
-	}
+                string DstFileData;
+                string FileDataStr = FileData;
+                Replace(FileDataStr, &DstFileData);
 
-	return 0;
+                fio2.WriteFile(argv[2], DstFileData.c_str(), DstFileData.size());
+
+
+                delete[] FileData;
+            }
+            else
+            {
+                cout << "***** cannot open source file:" << argv[2] << endl;
+            }
+        }
+        else
+        {
+            cout << "***** cannot open key file:" << argv[1] << endl;
+        }
+    }
+    else
+    {
+        cout << "usage: projectheader <keymapfile> <textfile>" << endl;
+        cout << "  Version 1.5" << endl;
+    }
+
+    return 0;
 }
-
