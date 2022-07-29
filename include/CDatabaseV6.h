@@ -7,13 +7,13 @@
 
 class CDatabaseV6
 {
-	public:
+    public:
 
-		bool Read(const char* Filename);
-		bool Get(const std::string Key, std::string* Value);
+        bool Read(const char* Filename);
+        bool Get(const std::string Key, std::string* Value);
 
-  	std::vector<stringvector>          mRecords;
-  	std::map<std::string, std::string> mKeyMap;
+        std::vector<stringvector> mRecords;
+        std::map<std::string, std::string> mKeyMap;
 };
 
 #endif
