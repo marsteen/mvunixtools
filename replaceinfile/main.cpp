@@ -9,7 +9,7 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include "CFileIO2.h"
+#include <CFileIO2.h>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ static bool ReplaceInFile(const char* filenameIn, const char* filenameOut, const
     long FileSize;
     bool r = false;
 
-    const char* FileData = (const char*)fin.ReadFile(filenameIn, &FileSize);
+    const char* FileData = (const char*) fin.ReadFile(filenameIn, &FileSize);
     const char* fromptr = FileData;
 
     if (FileData != NULL)
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
         cout << "   or: replaceinfile <file> <remove_this_string>" << endl;
         cout << "   or: replaceinfile <file> --config config.txt" << endl;
         cout << "   or: replaceinfile <file> --rtabs" << endl;
-        cout << "Version 1.5" << endl;
+        cout << "Version 1.6" << endl;
     }
 
     return 0;

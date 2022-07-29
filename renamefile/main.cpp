@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
     {
         if (newFilename != argv[1])
         {
-            ShowStringHex(argv[1]);
+            //ShowStringHex(argv[1]);
             cout << "old filename:" << argv[1] << endl;
             cout << "new filename:" << newFilename << endl;
             rename(argv[1], newFilename.c_str());
