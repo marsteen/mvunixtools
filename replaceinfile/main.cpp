@@ -13,6 +13,20 @@
 
 using namespace std;
 
+//---------------------------------------------------------------------------
+//
+// ReplaceInFile
+//
+// Replace srcString with dstString 
+// 
+//
+// filenameIn: name of the input file
+// filenameOut: name of the output file
+// srcString: string that gets replaced 
+// dstString: string that replaces srcString
+//
+//---------------------------------------------------------------------------
+
 static bool ReplaceInFile(const char* filenameIn, const char* filenameOut, const char* srcString, const char* dstString)
 {
     CFileIO2 fin;
@@ -55,12 +69,25 @@ static bool ReplaceInFile(const char* filenameIn, const char* filenameOut, const
 }
 
 
+//---------------------------------------------------------------------------
+//
+// fileExists
+//
+// return 
+// true: file exists
+//
+//---------------------------------------------------------------------------
+
 static bool fileExists(const std::string filename)
 {
     std::filesystem::path f{ filename };
     return std::filesystem::exists(f);
 }
 
+//---------------------------------------------------------------------------
+//
+//
+//---------------------------------------------------------------------------
 
 int main(int argc, char* argv[])
 {
