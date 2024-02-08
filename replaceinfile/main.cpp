@@ -10,6 +10,7 @@
 #include <cstring>
 #include <filesystem>
 #include <CFileIO2.h>
+#include <CHexConv.h>
 
 using namespace std;
 
@@ -86,6 +87,35 @@ static bool fileExists(const std::string filename)
 
 //---------------------------------------------------------------------------
 //
+// replaceAsciiCodesg
+//
+// return 
+// true: ersetzt $xx im String mit Asci-Code
+//
+//---------------------------------------------------------------------------
+
+static std::string replaceAsciiCodes(const std::string inputStr)
+{
+    std::string outputStr;
+    for (int i = 0; i < inputStr.size(); i++)
+    {
+        if ((inputStr[i] == '$') &&  (inputStr[i+1] == 'X'))
+        {
+            int code = CHexConv::ByteToInt(inputStr[i+2], inputStr[i+3]);            
+            outputStr += (char) code;
+            i += 3;
+
+        }
+        else
+        {
+            outputStr += inputStr[i];
+        }
+    }
+    return outputStr;
+}
+
+//---------------------------------------------------------------------------
+//
 //
 //---------------------------------------------------------------------------
 
@@ -93,6 +123,7 @@ int main(int argc, char* argv[])
 {
 	std::string err;
     bool replaced = false;
+
 
     if (argc >= 3)
     {
@@ -116,13 +147,18 @@ int main(int argc, char* argv[])
 	    else
 	    if (argc == 3)
 	    {
-	        ReplaceInFile(argv[1], argv[1], argv[2], NULL);
+            const std::string srcString = replaceAsciiCodes(argv[2]);
+
+	        ReplaceInFile(argv[1], argv[1], srcString.c_str(), NULL);
 	        replaced = true;
 	    }
 	    else
 	    if (argc == 4)
 	    {
-	        ReplaceInFile(argv[1], argv[1], argv[2], argv[3]);
+            const std::string srcString = replaceAsciiCodes(argv[2]);
+            const std::string dstString = replaceAsciiCodes(argv[3]);
+
+	        ReplaceInFile(argv[1], argv[1], srcString.c_str(), dstString.c_str());
 	        replaced = true;
 	    }
 	}
@@ -204,7 +240,8 @@ int main(int argc, char* argv[])
         cout << "   or: replaceinfile <file> <remove_this_string>" << endl;
         cout << "   or: replaceinfile <file> --config config.txt" << endl;
         cout << "   or: replaceinfile <file> --rtabs" << endl;
-        cout << "Version 1.6" << endl;
+        cout << "   ascii-hex-codes: \\$X<hexcode> - example: \\$X41 is letter A" << endl;
+        cout << "Version 1.7" << endl;
     }
 
     return 0;

@@ -95,5 +95,4 @@ install:
 # Regel zur Erzeugung des Targets aus den Objekt-Dateien.
 #
 $(TARGET): $(CCOBJECTS)
-	$(CC) -o $(TARGET) $(CCFLAGS) $(CCOBJECTS)
-	strip $(TARGET)
+	$(CC) -s -o $(TARGET) $(CCFLAGS) $(CCOBJECTS)
