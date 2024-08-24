@@ -1,8 +1,11 @@
 @PROJECT  :	mvsnake
+@PROJECT  :	Diercke Atlas Web
 @FILENAME :	%FILENAME%
 @VERSION  :	1.0
 @DATE     :	%DATE%
 @AUTHOR   :	Martin Steen
 @EMAIL    :	martin@martin-steen.de
+@EMAIL    :	martin.steen@ksti.de
+@COMPANY  :	ksti GmbH
 
 
